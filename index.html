@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .badge {
+            width: 400px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid #333;
+            border-radius: 15px;
+            background-color: white;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        #qr-container {
+            margin-top: 15px;
+        }
+
+        canvas {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="badge">
+        <h1>QR Code Generator</h1>
+        <input type="text" id="link" placeholder="Enter your link here">
+        <button class="btn" onclick="generateQR()">Generate QR Code</button>
+        <div id="qr-container">
+            <canvas id="qr-code"></canvas>
+            <button class="btn" onclick="downloadQR()">Download QR Code</button>
+        </div>
+    </div>
+
+    <script>
+        function generateQR() {
+            let qrText = document.getElementById("link").value;
+            if (qrText.trim() === "") {
+                alert("Please enter a valid link.");
+                return;
+            }
+            let qr = new QRious({
+                element: document.getElementById("qr-code"),
+                value: qrText,
+                size: 200
+            });
+        }
+        function downloadQR() {
+    let qrCanvas = document.getElementById("qr-code");
+    
+    // Convert QR code to Data URL
+    let qrImage = qrCanvas.toDataURL("image/png");
+
+    // Create a link to download the image
+    let downloadLink = document.createElement("a");
+    downloadLink.href = qrImage;
+    downloadLink.download = "QR_Code.png";
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+}
+    </script>
+</body>
+</html>
